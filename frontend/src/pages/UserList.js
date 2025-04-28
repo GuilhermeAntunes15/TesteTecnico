@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getUsers, deleteUser } from '../services/api';
+import { getUsers, deleteUser } from '../services/apiUser';
 import { Link } from 'react-router-dom';
 
 export default function UserList() {

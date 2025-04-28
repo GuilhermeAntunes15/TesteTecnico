@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route, NavLink } from 'react-router-dom';
 import UserList from './pages/UserList';
 import UserForm from './pages/UserForm';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/" element={<UserList />} />
         <Route path="/create" element={<UserForm />} />
         <Route path="/edit/:id" element={<UserForm />} />
+        <Route path="*" element={<NotFound />} /> {/* <-- rota coringa */}
       </Routes>
     </div>
   );

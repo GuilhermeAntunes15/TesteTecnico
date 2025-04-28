@@ -6,14 +6,22 @@ const { User }= require('../models');
 router.post('/', async (req, res) => {
   const { name, email } = req.body;
   if (!name || !email) {
-    return res.status(400).json({ error: 'Name and email are required' });
+    return res.status(400).json({ error: 'Nome e email são obrigatórios' });
+  }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Email inválido' });
+  }
+  const existingUser = await User.findOne({ where: { email } });
+  if (existingUser) {
+    return res.status(400).json({ error: 'Email já cadastrado' });
   }
   try {
     const user = await User.create({ name, email });
     res.status(201).json(user);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });
 
@@ -32,18 +40,18 @@ router.get('/', async (req, res) => {
       res.json(users);
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ error: 'Erro interno do servidor' });
     }
 });
 
 router.get('/:id', async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
-    if (!user) return res.status(404).json({ error: 'User not found' });
+    if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
     res.json(user);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });
 
@@ -54,23 +62,23 @@ router.put('/:id', async (req, res) => {
       { name, email },
       { where: { id: req.params.id } }
     );
-    if (!updated) return res.status(404).json({ error: 'User not found' });
+    if (!updated) return res.status(404).json({ error: 'Usuário não encontrado' });
     const user = await User.findByPk(req.params.id);
     res.json(user);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });
 
 router.delete('/:id', async (req, res) => {
   try {
     const deleted = await User.destroy({ where: { id: req.params.id } });
-    if (!deleted) return res.status(404).json({ error: 'User not found' });
+    if (!deleted) return res.status(404).json({ error: 'Usuário não encontrado' });
     res.sendStatus(204);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });
 
