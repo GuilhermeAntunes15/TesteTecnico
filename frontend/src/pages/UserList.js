@@ -32,7 +32,7 @@ export default function UserList() {
                 onClick={loadUsers}
                 className="bg-green-600 hover:bg-green-700 text-white px-4 rounded-r"
                 >
-                Search
+                Pesquisar
                 </button>
             </div>
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">Todos os usuários</h2>
