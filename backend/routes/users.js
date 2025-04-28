@@ -57,6 +57,18 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   const { name, email } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ error: 'Nome e email são obrigatórios' });
+  }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Email inválido' });
+  }
+  const existingUser = await User.findOne({ where: { email, id: { [Op.ne]: req.params.id } } });
+  if (existingUser) {
+    return res.status(400).json({ error: 'Email já cadastrado' });
+  }
   try {
     const [updated] = await User.update(
       { name, email },
