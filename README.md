@@ -30,7 +30,10 @@ Frontend
 
 📁 Estrutura do Projeto
 
-project-root/
+```bash
+TesteTecnico/
+├── README.md
+├── .gitignore
 ├── backend/
 │   ├── config/
 │   ├── migrations/
@@ -50,6 +53,7 @@ project-root/
     ├── tailwind.config.js
     ├── postcss.config.js
     ├── package.json
+```
 
 ---
 
